@@ -33,10 +33,12 @@ setup:
 clean: 
 	rm -rf $(dir_out) $(dir_obj)
 
-########## rules
 $(dir_obj)/%.o: $(dir_src)/%.cc
 	$(CC) $(CFLAGS) -c $< -o $@
 
+########################################################
+#  对每个可执行程序，单独声明规则吧，不然不好控制依赖  #
+########################################################
 $(dir_out)/ArrayAddress: $(dir_test)/ArrayAddress.cc
 	$(CC) $(CFLAGS) $< -o $@
 
@@ -54,5 +56,7 @@ $(dir_out)/FloatingAsBinary: $(dir_test)/FloatingAsBinary.cc $(dir_obj)/printBin
 
 $(dir_out)/CLib: $(dir_test)/Clib.cc $(dir_obj)/CLib.o
 	$(CC) $(CFLAGS) $< -o $@ $(dir_obj)/CLib.o
+######################################################## end
+
 
 # vim: set ft=make ts=4 sw=4 sts=4 tw=120 fdm=syntax: #
