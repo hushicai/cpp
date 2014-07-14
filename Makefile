@@ -51,6 +51,9 @@ $(dir_out)/sizeof: $(dir_test)/sizeof.cc
 $(dir_out)/test: $(dir_test)/test.cc
 	$(CC) $(CFLAGS) $< -o $@
 
+$(dir_out)/Constructor1: $(dir_test)/Constructor1.cc
+	$(CC) $(CFLAGS) $< -o $@
+
 $(dir_out)/FloatingAsBinary: $(dir_test)/FloatingAsBinary.cc $(dir_obj)/printBinary.o
 	$(CC) $(CFLAGS) $< -o $@ $(dir_obj)/printBinary.o
 
