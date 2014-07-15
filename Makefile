@@ -36,7 +36,8 @@ mkObj:
 	mkdir -p $(dir_obj)
 
 clean: 
-	rm -rf $(dir_out) $(dir_obj) 
+	rm -rf $(dir_out) $(dir_obj) \
+	rm $(dir_dep)/*.d
 
 # obj
 $(dir_obj)/%.o: $(dir_src)/%.cc
