@@ -20,5 +20,8 @@ int main()
     cout << "sizeof(double) = " << sizeof(double) << endl;
     cout << "sizeof struct A = " << sizeof(A) << endl;
     cout << "sizeof struct B = " << sizeof(B) << endl;
+
+    int a[] = {1, 2, 3};
+    cout << "size of array a = " << sizeof(a) << endl;
     return 0;
 }

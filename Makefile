@@ -4,62 +4,56 @@
 dir_src = src
 dir_include = include
 dir_test = test
-
+dir_dep = dep
 dir_obj = obj
 dir_out = out
 
 CC = clang++
 CFLAGS = -I$(dir_include)
+LDFLAGS = 
 
 # 目标文件源代码
 srcs = $(wildcard $(dir_src)/*.cc)
 # 可执行文件源代码
 tests = $(wildcard $(dir_test)/*.cc)
 
+deps = $(patsubst %.cc, ${dir_dep}/%.d, $(notdir $(tests)))
 objs = $(patsubst %.cc, ${dir_obj}/%.o, $(notdir $(srcs)))
 progs = $(patsubst %.cc, ${dir_out}/%, $(notdir $(tests)))
 
 all: $(objs) $(progs)
-	@echo "done"
 
-$(objs): | setup
+$(objs) : | mkObj
 
-$(progs): | setup
+$(progs) : | mkOut
 
-.PHONY: clean setup
-setup: 
-	mkdir -p $(dir_obj) $(dir_out)
+.PHONY: clean  mkOut mkObj
+
+mkOut:
+	mkdir -p $(dir_out)
+
+mkObj:
+	mkdir -p $(dir_obj)
 
 clean: 
-	rm -rf $(dir_out) $(dir_obj)
+	rm -rf $(dir_out) $(dir_obj) 
 
+# obj
 $(dir_obj)/%.o: $(dir_src)/%.cc
 	$(CC) $(CFLAGS) -c $< -o $@
 
-########################################################
-#  对每个可执行程序，单独声明规则吧，不然不好控制依赖  #
-########################################################
-$(dir_out)/ArrayAddress: $(dir_test)/ArrayAddress.cc
-	$(CC) $(CFLAGS) $< -o $@
+$(dir_out)/%: $(dir_test)/%.cc
+	$(CC) $(CFLAGS) -o $@ $^
 
-$(dir_out)/FunctionTable: $(dir_test)/FunctionTable.cc
-	$(CC) $(CFLAGS) $< -o $@
+# 自动生成依赖
+$(dir_dep)/%.d : $(dir_test)/%.cc
+	@set -e; \
+	rm -f $@; \
+	$(CC) -MM $< > $@.$$$$ $(CFLAGS); \
+	sed  -e's,\($*\)\.o[ :]*,$(dir_out)\/\1 $@: ,g' \
+		 -e 's,include\/\(.*\)\.h,$(dir_obj)\/\1\.o,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
 
-$(dir_out)/sizeof: $(dir_test)/sizeof.cc
-	$(CC) $(CFLAGS) $< -o $@
-
-$(dir_out)/test: $(dir_test)/test.cc
-	$(CC) $(CFLAGS) $< -o $@
-
-$(dir_out)/Constructor1: $(dir_test)/Constructor1.cc
-	$(CC) $(CFLAGS) $< -o $@
-
-$(dir_out)/FloatingAsBinary: $(dir_test)/FloatingAsBinary.cc $(dir_obj)/printBinary.o
-	$(CC) $(CFLAGS) $< -o $@ $(dir_obj)/printBinary.o
-
-$(dir_out)/CLib: $(dir_test)/Clib.cc $(dir_obj)/CLib.o
-	$(CC) $(CFLAGS) $< -o $@ $(dir_obj)/CLib.o
-######################################################## end
-
+-include $(deps)
 
 # vim: set ft=make ts=4 sw=4 sts=4 tw=120 fdm=syntax: #
