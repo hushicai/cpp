@@ -20,7 +20,6 @@ objs = $(patsubst %.cc, ${dir_obj}/%.o, $(notdir $(srcs)))
 progs = $(patsubst %.cc, ${dir_out}/%, $(notdir $(tests)))
 
 all: setup $(objs) $(progs)
-	@echo "done"
 
 .PHONY: clean setup
 setup: 
@@ -36,9 +35,10 @@ $(dir_obj)/%.o: $(dir_src)/%.cc
 $(dir_out)/%: $(dir_test)/%.cc
 	$(CC) $(CFLAGS) -o $@ $^
 
-
 $(dir_out)/FloatingAsBinary: $(dir_obj)/printBinary.o
 
 $(dir_out)/CLib: $(dir_obj)/CLib.o
+
+$(dir_out)/Mem: $(dir_obj)/Mem.o
 
 # vim: set ft=make ts=4 sw=4 sts=4 tw=120 fdm=syntax: #
