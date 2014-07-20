@@ -15,6 +15,7 @@ Mem::Mem(int sz) {
 }
 
 Mem::~Mem() {
+    // for `new[]`, use `delete[]`
     delete []mem;
 }
 

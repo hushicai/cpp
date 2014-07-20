@@ -40,7 +40,8 @@ void MyString::print(ostream& os) {
 }
 
 MyString::~MyString() {
-    delete []buf;
+    // for `new`, use `delete``
+    delete buf;
 }
 
 int main() {
