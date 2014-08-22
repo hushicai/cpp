@@ -1,5 +1,7 @@
 // 数组循环右移算法
 // 三次字符串反转法
+// 线性时间右移
+// O(2n) ~ O(n)
 #include <iostream>
 
 using namespace std;
