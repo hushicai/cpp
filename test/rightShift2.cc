@@ -2,7 +2,8 @@
 
 using namespace std;
 
-void rightShift(char* a, int n) {
+void rightShift(char* a, int n) 
+{
     // 字符长度
     int l = strlen(a);
     char* b = new char[l];
