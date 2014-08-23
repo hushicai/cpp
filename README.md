@@ -1,4 +1,4 @@
 cpp-learning
 ============
 
-learning cpp
+学习c/c++
