@@ -9,7 +9,6 @@ dir_out = out
 
 CC = clang++
 CFLAGS = -I$(dir_include)
-LDFLAGS = 
 
 # 目标文件源代码
 srcs = $(wildcard $(dir_src)/*.cc)
