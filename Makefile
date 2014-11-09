@@ -8,7 +8,7 @@ dir_obj = obj
 dir_out = out
 
 CC = clang++
-CFLAGS = -I$(dir_include) 
+CFLAGS = -I$(dir_include)
 
 # 目标文件源代码
 srcs = $(wildcard $(dir_src)/*.cc)
