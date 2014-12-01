@@ -1,9 +1,9 @@
 # @file compile cpp source files
 # @author hushicai
 
-dir_src = src
+dir_lib = lib
 dir_include = include
-dir_test = test
+dir_src = src 
 dir_obj = obj
 dir_out = out
 
@@ -11,12 +11,12 @@ CC = clang++
 CFLAGS = -I$(dir_include)
 
 # 目标文件源代码
-srcs = $(wildcard $(dir_src)/*.cc)
+libs = $(wildcard $(dir_lib)/*.cc)
 # 可执行文件源代码
-tests = $(wildcard $(dir_test)/*.cc)
+srcs = $(wildcard $(dir_src)/*.cc)
 
-objs = $(patsubst %.cc, ${dir_obj}/%.o, $(notdir $(srcs)))
-progs = $(patsubst %.cc, ${dir_out}/%, $(notdir $(tests)))
+objs = $(patsubst %.cc, ${dir_obj}/%.o, $(notdir $(libs)))
+progs = $(patsubst %.cc, ${dir_out}/%, $(notdir $(srcs)))
 
 all: setup $(objs) $(progs)
 
@@ -28,10 +28,10 @@ clean:
 	rm -rf $(dir_out) $(dir_obj)
 
 # obj
-$(dir_obj)/%.o: $(dir_src)/%.cc
+$(dir_obj)/%.o: $(dir_lib)/%.cc
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(dir_out)/%: $(dir_test)/%.cc
+$(dir_out)/%: $(dir_src)/%.cc
 	$(CC) $(CFLAGS) -o $@ $^
 
 # 自动生成依赖比较麻烦
